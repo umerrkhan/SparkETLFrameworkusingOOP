@@ -1,5 +1,7 @@
 import json, os, re, sys
 from typing import Optional
+from pyspark.sql import SparkSession
+
 
 class ETL_Framework:
     def __init__(self, config):
@@ -33,11 +35,26 @@ class ETL_Framework:
                         files.append(filename)
             return files
 
-
         if FileOrDirectoy(location) == "Dir":
             allfileslist = ListFiles(location)
             return SearchSpecificfiles(allfileslist, pattern)
         else:
             return SearchSpecificfiles(location)
 
+    def sparkStart (self, filepath: str, appDebug: Optional[str] = False) -> SparkSession :
+        with open(filepath, "r") as f:
+            SessionParams = json.load(f)
 
+        Master = SessionParams["sparkconf"]["master"]
+        AppName = SessionParams["sparkconf"]["appname"]
+        LogLevel = SessionParams["log"]["level"]
+        LogLevel = SessionParams.get('sparkconf', {}).get('log', "level") # another method
+        MySparkSession = SparkSession.builder.appName(AppName).master(Master)
+        if appDebug:
+            print("Settings from Json File")
+            print("Master    : ", Master)
+            print("App Name  : ", AppName)
+            print("Log Level :", LogLevel)
+            print("Type :", type(SparkSession))
+            print(SparkSession)
+        return SparkSession

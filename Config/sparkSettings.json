@@ -1,0 +1,21 @@
+{
+	"sparkconf" :
+	{
+		"master":"local[*]",
+		"appname":"sales"
+		
+	},
+	
+	"config":
+	{
+		"deltalake":true
+	},
+	"log":
+	{
+		"level":null
+	}
+	
+	
+	
+	
+}
