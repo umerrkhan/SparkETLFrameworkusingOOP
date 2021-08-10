@@ -14,16 +14,15 @@ def main(project_dir) -> None:
     sc = getSparkSession(sparkConfigfile)
 
     sales_landing_dir = "/SPARK_SAN/SOURCE_DATA/001"
-    salesFileList = listofloadingfiles(sales_landing_dir, "csv")
+    salesFileList = listofloadingfiles(sales_landing_dir, "json")
     print(salesFileList)
-    df = createDataFrame(sc, salesFileList)
-
+    df = createDataFrame(sc, salesFileList, "json")
     showSampleDFValues(df)
 
 
 
 
-def listofloadingfiles(path: str, pattern:Optional[str] = None ) -> str:
+def listofloadingfiles(path: str, pattern:Optional[str] = "csv" ) -> str:
     return etlFramework.ETL_Framework(config={}).listofloadingfiles(path, pattern)
 
 

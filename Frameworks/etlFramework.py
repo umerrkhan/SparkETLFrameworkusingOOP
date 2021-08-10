@@ -71,10 +71,13 @@ class ETL_Framework:
             return df
 
         def createJSONDataFrameJSON(sc: SparkSession, files: list) -> DataFrame:
+            print("json Function is called")
             df = sc.read.format("json") \
                 .option("mode", "PERMISSIVE") \
                 .option("primitivesAsString", "true") \
+                .option("multiline", "true") \
                 .load(files)
+
             return df
 
         if filetype == "json":
@@ -89,4 +92,4 @@ class ETL_Framework:
         print(df.printSchema())
         print("Printing Top 10 Values of Data Frame")
         print(df.show(10))
-        print("Total Values in Dataframe ", df.count())
+        print("Total rows including mal format ", df.count())
