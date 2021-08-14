@@ -2,6 +2,8 @@ import json, os, re, sys
 from typing import Optional
 from pyspark.sql import SparkSession
 from pyspark.sql.dataframe import DataFrame
+from pyspark.sql.types import StructType, StructField, IntegerType, StringType, LongType, ArrayType, DoubleType, \
+    DateType, IntegerType
 
 
 class ETL_Framework:
@@ -61,7 +63,8 @@ class ETL_Framework:
             print(SparkSession)
         return SparkSession
 
-    def createDataFrame(self, sc: SparkSession, files: list, filetype: str) -> DataFrame:
+    def createDataFrame(self, sc: SparkSession, files: list, filetype: str, multiLine: Optional[str] = None,
+                        FileStruct: Optional[StructType] = None) -> DataFrame:
 
         def createCSVDataFrame(sc: SparkSession, files: list) -> DataFrame:
             df = sc.read.format("csv") \
@@ -70,18 +73,30 @@ class ETL_Framework:
                 .load(files)
             return df
 
-        def createJSONDataFrameJSON(sc: SparkSession, files: list) -> DataFrame:
+        def createJSONDataFrameJSON(sc: SparkSession, files: list, multiLine: str, FileStruct: StructType) -> DataFrame:
             print("json Function is called")
-            df = sc.read.format("json") \
-                .option("mode", "PERMISSIVE") \
-                .option("primitivesAsString", "true") \
-                .option("multiline", "true") \
-                .load(files)
+            print(multiLine)
+            print(FileStruct)
+
+            if multiLine == None and FileStruct == None:
+                print("1- No Multiline and schema provided ")
+                df = sc.read.format("json").option("mode", "PERMISSIVE").option("primitivesAsString", "true").load(
+                    files)
+            elif multiLine == "True" and FileStruct == None:
+                print("2- Multiline is True but No Schema is provided")
+                df = sc.read.format("json").option("mode", "PERMISSIVE").option("primitivesAsString", "true").option(
+                    "multiline", "true").load(files)
+            elif multiLine == "True" and FileStruct != None:
+                print("3- Muliline is True and Schema is Provided")
+                df = sc.read.option("mode", "FAILFAST").schema(FileStruct).json(files, multiLine=True)
+            else:
+                pass
 
             return df
 
         if filetype == "json":
-            df = createJSONDataFrameJSON(sc, files)
+            df = createJSONDataFrameJSON(sc, files, multiLine, FileStruct)
+
         elif filetype == "csv":
             df = createCSVDataFrame(sc, files)
 
