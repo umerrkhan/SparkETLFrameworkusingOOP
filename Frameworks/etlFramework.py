@@ -73,22 +73,22 @@ class ETL_Framework:
                 .load(files)
             return df
 
-        def createJSONDataFrameJSON(sc: SparkSession, files: list, multiLine: str, FileStruct: StructType) -> DataFrame:
-            print("json Function is called")
-            print(multiLine)
-            print(FileStruct)
+        def createJSONDataFrameJSON(sc: SparkSession, files: list, multiLine: str, DFSchema: StructType) -> DataFrame:
+            #print("json Function is called")
+            #print(multiLine)
+            #print(DFSchema)
 
-            if multiLine == None and FileStruct == None:
-                print("1- No Multiline and schema provided ")
+            if multiLine == None and DFSchema == None:
+                #print("1- No Multiline and schema provided ")
                 df = sc.read.format("json").option("mode", "PERMISSIVE").option("primitivesAsString", "true").load(
                     files)
-            elif multiLine == "True" and FileStruct == None:
-                print("2- Multiline is True but No Schema is provided")
+            elif multiLine == "True" and DFSchema == None:
+                #print("2- Multiline is True but No Schema is provided")
                 df = sc.read.format("json").option("mode", "PERMISSIVE").option("primitivesAsString", "true").option(
                     "multiline", "true").load(files)
-            elif multiLine == "True" and FileStruct != None:
-                print("3- Muliline is True and Schema is Provided")
-                df = sc.read.option("mode", "FAILFAST").schema(FileStruct).json(files, multiLine=True)
+            elif multiLine == "True" and DFSchema != None:
+                #print("3- Muliline is True and Schema is Provided")
+                df = sc.read.option("mode", "FAILFAST").schema(DFSchema).json(files, multiLine=True)
             else:
                 pass
 
@@ -102,9 +102,14 @@ class ETL_Framework:
 
         return df
 
-    def showSampleDFValues(self, df: DataFrame):
+    def showSampleDFValues(self, df: DataFrame, ShowValues: Optional[str] = True):
         print("Printing Data Frame Schema")
         print(df.printSchema())
-        print("Printing Top 10 Values of Data Frame")
-        print(df.show(10))
-        print("Total rows including mal format ", df.count())
+        if ShowValues:
+            print("Printing Top 10 Values of Data Frame out of ",df.count(), "values.")
+            print(df.show(10))
+        else:
+            print("Total rows including mal format ", df.count())
+
+
+

@@ -1,2 +1,3 @@
 *.pyc
+*.ddl
 __pycache__

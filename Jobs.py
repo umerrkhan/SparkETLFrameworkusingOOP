@@ -14,21 +14,21 @@ def main(project_dir) -> None:
     sparkConfigfile = f"{project_dir}/Config/sparkSettings.json"
 
     sc = getSparkSession(sparkConfigfile)
-    salesSchema = StructType([\
-        StructField("ORDERNUMBER", LongType(), True),\
-        StructField("PRODUCTCODE", StringType(), True),\
-        StructField("attributes", ArrayType(\
-            StructType([\
-                StructField("MSRP", LongType(),True),\
-                StructField("ORDERDATE", StringType(), True),\
-                StructField("PRICEEACH", DoubleType(), True),\
-                StructField("PRODUCTLINE", StringType(), True),\
-                StructField("QUANTITYORDERED", LongType(), True),\
-                StructField("SALES", DoubleType(), True),\
-                StructField("STATUS", StringType(), True)]\
-            ), True)\
-                    , True)\
-    ])
+    salesSchema = StructType([ \
+        StructField("ORDERNUMBER", LongType(), True), \
+        StructField("PRODUCTCODE", StringType(), True), \
+        StructField("attributes", ArrayType( \
+            StructType([ \
+                StructField("MSRP", LongType(),True), \
+                StructField("ORDERDATE", StringType(), True), \
+                StructField("PRICEEACH", DoubleType(), True), \
+                StructField("PRODUCTLINE", StringType(), True), \
+                StructField("QUANTITYORDERED", LongType(), True), \
+                StructField("SALES", DoubleType(), True), \
+                StructField("STATUS", StringType(), True)] \
+                ), True) \
+                    , True) \
+        ])
 
 
     salesFileList = listofloadingfiles("/SPARK_SAN/SOURCE_DATA/001", "json")
@@ -83,4 +83,3 @@ def showSampleDFValues(df: DataFrame):
 
 if __name__ == '__main__':
     main(project_dir)
-
