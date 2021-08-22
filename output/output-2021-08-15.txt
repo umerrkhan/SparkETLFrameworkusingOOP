@@ -1,0 +1,36 @@
+Total Files :  3
+File Type --> json
+Printing Data Frame Schema
+root
+ |-- ORDERNUMBER: long (nullable = true)
+ |-- PRODUCTCODE: string (nullable = true)
+ |-- MSRP: integer (nullable = true)
+ |-- ORDERDATE: integer (nullable = true)
+ |-- PRICEEACH: double (nullable = true)
+ |-- PRODUCTLINE: string (nullable = false)
+ |-- QUANTITYORDERED: integer (nullable = true)
+ |-- SALES: double (nullable = true)
+ |-- STATUS: string (nullable = false)
+ |-- SALES_ORDERDATE: date (nullable = true)
+
+None
+Printing Top 10 Values of Data Frame out of  1519 values.
++-----------+-----------+----+---------+---------+------------+---------------+-------+-------+---------------+
+|ORDERNUMBER|PRODUCTCODE|MSRP|ORDERDATE|PRICEEACH| PRODUCTLINE|QUANTITYORDERED|  SALES| STATUS|SALES_ORDERDATE|
++-----------+-----------+----+---------+---------+------------+---------------+-------+-------+---------------+
+|      10208|   S18_4522|  87| 20040201|    87.77|Vintage Cars|             45|3949.65|Shipped|     2004-02-01|
+|      10208|   S24_3151|  88| 20040201|     89.4|Vintage Cars|             20| 1788.0|Shipped|     2004-02-01|
+|      10208|   S50_1514|  58| 20040201|    65.61|      Trains|             30| 1968.3|Shipped|     2004-02-01|
+|      10208|  S700_1138|  66| 20040201|    74.67|       Ships|             38|2837.46|Shipped|     2004-02-01|
+|      10208|  S700_1938|  86| 20040201|    80.55|       Ships|             40| 3222.0|Shipped|     2004-02-01|
+|      10208|  S700_2610|  72| 20040201|    74.45|       Ships|             46| 3424.7|Shipped|     2004-02-01|
+|      10208|  S700_3962|  99| 20040201|    85.41|       Ships|             33|2818.53|Shipped|     2004-02-01|
+|      10208|   S72_3212|  54| 20040201|    63.88|       Ships|             42|2682.96|Shipped|     2004-02-01|
+|      10209|   S24_2841|  68| 20040901|    82.21|      Planes|             43|3535.03|Shipped|     2004-09-01|
+|      10209|   S24_3420|  65| 20040901|    77.59|Vintage Cars|             36|2793.24|Shipped|     2004-09-01|
++-----------+-----------+----+---------+---------+------------+---------------+-------+-------+---------------+
+only showing top 10 rows
+
+None
+
+Process finished with exit code 0

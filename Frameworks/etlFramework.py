@@ -5,6 +5,10 @@ from pyspark.sql.dataframe import DataFrame
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, LongType, ArrayType, DoubleType, \
     DateType, IntegerType
 
+from delta import configure_spark_with_delta_pip
+
+
+
 
 class ETL_Framework:
     def __init__(self, config):
@@ -43,16 +47,26 @@ class ETL_Framework:
         else:
             return SearchSpecificfiles(location)
 
-    def getSparkSession(self, filepath: str, appDebug: Optional[str] = False) -> SparkSession:
+    def getSparkSession(self, filepath: str, appDebug: Optional[str] = False, lake: Optional[str] = "Data") -> SparkSession:
         with open(filepath, "r") as f:
             SessionParams = json.load(f)
+
 
         Master = SessionParams["sparkconf"]["master"]
         AppName = SessionParams["sparkconf"]["appname"]
         LogLevel = SessionParams["log"]["level"]
         LogLevel = SessionParams.get('sparkconf', {}).get('log', "level")  # another method
+
         builder = SparkSession.builder.appName(AppName).master(Master)
-        return builder.getOrCreate()
+
+        if lake == "Data":
+            builder \
+                .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
+                .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
+            configure_spark_with_delta_pip(builder)
+            return builder.getOrCreate()
+        else:
+            return builder.getOrCreate()
 
         if appDebug:
             print("Settings from Json File")

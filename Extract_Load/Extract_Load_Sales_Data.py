@@ -5,7 +5,6 @@ from pyspark.sql.dataframe import DataFrame
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType,LongType,ArrayType,DoubleType,DateType,IntegerType
 import pyspark.sql.functions as F
 
-
 project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 print("project_dir -------> ",project_dir)
 sys.path.insert(1, project_dir)
@@ -76,7 +75,19 @@ def main(project_dir) -> None:
         .withColumn("QUANTITYORDERED", salesDF_T4["QUANTITYORDERED"].cast(IntegerType()))
         .withColumn("SALES", salesDF_T4["SALES"].cast(DoubleType())))
 
-    showSampleDFValues(salesDF)
+    #showSampleDFValues(salesDF)
+
+
+    salesDF.write.format("delta").mode("append").save( partitionBy="ORDERDATE",path= "/SPARK_SAN/OUTPUT_DATA/Sales.parquet")
+
+
+
+
+
+    #salesDF_T4.write.mode("default").parquet(partitionBy="ORDERDATE", path="/SPARK_SAN/OUTPUT_DATA/Sales")
+
+
+
 
 
 
