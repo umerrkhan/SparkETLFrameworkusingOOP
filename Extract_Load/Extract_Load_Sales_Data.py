@@ -12,7 +12,7 @@ from Frameworks import etlFramework
 
 def main(project_dir) -> None:
 
-    sc = getSparkSession(f"{project_dir}/Config/sparkSettings.json")
+    sc = getSparkSession(f"{project_dir}/Config/sparkSettings.json", "Delta")
     salesSchema = StructType([
     StructField("ORDERNUMBER", LongType(),True),
     StructField("PRODUCTCODE", StringType(),True),
@@ -114,8 +114,8 @@ def listofloadingfiles(path: str, pattern:Optional[str] = "csv" ) -> str:
     return etlFramework.ETL_Framework(config={}).listofloadingfiles(path, pattern)
 
 
-def getSparkSession(configfile: str):
-    return etlFramework.ETL_Framework(config={}).getSparkSession(configfile, False)
+def getSparkSession(configfile: str, lake: Optional[str] = "Data"):
+    return etlFramework.ETL_Framework(config={}).getSparkSession(configfile, False,  lake)
 
 
 def createDataFrame(sc: SparkSession, files: list, filetype: Optional[str] = "csv", Multiline: Optional[str] = None, DFSchema: Optional[StructType] = None):

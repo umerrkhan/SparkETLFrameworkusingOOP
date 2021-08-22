@@ -59,7 +59,7 @@ class ETL_Framework:
 
         builder = SparkSession.builder.appName(AppName).master(Master)
 
-        if lake == "Data":
+        if lake == "Delta":
             builder \
                 .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
                 .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
